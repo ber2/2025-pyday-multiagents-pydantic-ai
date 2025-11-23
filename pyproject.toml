@@ -1,17 +1,29 @@
 [project]
 name = "arxiv-author-affiliation"
 version = "0.1.0"
-description = "Add your description here"
+description = "Multi-agent system using Pydantic AI to parse arXiv papers and extract author/affiliation data"
 readme = "README.md"
 authors = [
     { name = "Alberto Camara", email = "camara@protonmail.com" }
 ]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "httpx>=0.28.1",
+    "logfire>=4.15.1",
+    "pydantic>=2.12.4",
+    "pydantic-ai>=1.22.0",
+    "pymupdf>=1.26.6",
+    "python-dotenv>=1.2.1",
+]
 
 [project.scripts]
-python-template = "arxiv-author-affiliation:main"
+arxiv-parser = "arxiv_author_affiliation.cli:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1",
+]
