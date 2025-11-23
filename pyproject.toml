@@ -1,5 +1,5 @@
 [project]
-name = "python-template"
+name = "arxiv-author-affiliation"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -10,7 +10,7 @@ requires-python = ">=3.11"
 dependencies = []
 
 [project.scripts]
-python-template = "python_template:main"
+python-template = "arxiv-author-affiliation:main"
 
 [build-system]
 requires = ["hatchling"]
