@@ -20,9 +20,5 @@ def cli(arxiv_id):
     click.echo(f"Text length: {paper.text_length}")
 
 
-def main():
-    cli()
-
-
 if __name__ == "__main__":
-    main()
+    cli()

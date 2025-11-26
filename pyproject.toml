@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-arxiv-parser = "arxiv_author_affiliation.cli:main"
+arxiv-parser = "arxiv_author_affiliation.cli:cli"
 
 [build-system]
 requires = ["hatchling"]
@@ -27,4 +27,5 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "pytest>=9.0.1",
+    "pytest-sugar>=1.1.1",
 ]
