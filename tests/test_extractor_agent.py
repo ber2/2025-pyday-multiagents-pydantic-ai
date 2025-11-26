@@ -52,12 +52,11 @@ def test_extract_authors_calls_agent_with_text(mock_agent_class):
 
     extract_authors("1706.03762", SAMPLE_TEXT)
 
-    call_args = mock_agent.run_sync.call_args
-    assert SAMPLE_TEXT in str(call_args)
+    mock_agent.run_sync.assert_called_once_with(SAMPLE_TEXT)
 
 
 @patch("arxiv_author_affiliation.extractor_agent.Agent")
-def test_extract_authors_agent_configured_with_paper_authors_result_type(
+def test_extract_authors_agent_configured_with_paper_authors_output_type(
     mock_agent_class,
 ):
     mock_agent = Mock()
@@ -74,8 +73,8 @@ def test_extract_authors_agent_configured_with_paper_authors_result_type(
     mock_agent_class.assert_called_once()
     call_kwargs = mock_agent_class.call_args.kwargs
 
-    assert "result_type" in call_kwargs
-    assert call_kwargs["result_type"] == PaperAuthors
+    assert "output_type" in call_kwargs
+    assert call_kwargs["output_type"] == PaperAuthors
 
 
 @patch("arxiv_author_affiliation.extractor_agent.Agent")
