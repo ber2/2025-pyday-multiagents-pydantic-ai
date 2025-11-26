@@ -14,6 +14,7 @@ with open(TEST_TEXT_PATH) as f:
     SAMPLE_TEXT = f.read()
 
 
+@patch.dict("os.environ", {"MODEL_NAME": "gemini-1.5-flash"})
 @patch("arxiv_author_affiliation.extractor_agent.Agent")
 def test_extract_authors_returns_paper_authors(mock_agent_class):
     mock_agent = Mock()
@@ -29,7 +30,7 @@ def test_extract_authors_returns_paper_authors(mock_agent_class):
     )
 
     mock_run_result = Mock()
-    mock_run_result.data = expected_result
+    mock_run_result.output = expected_result
     mock_agent.run_sync.return_value = mock_run_result
 
     result = extract_authors("1706.03762", SAMPLE_TEXT)
@@ -39,6 +40,7 @@ def test_extract_authors_returns_paper_authors(mock_agent_class):
     mock_agent.run_sync.assert_called_once()
 
 
+@patch.dict("os.environ", {"MODEL_NAME": "gemini-1.5-flash"})
 @patch("arxiv_author_affiliation.extractor_agent.Agent")
 def test_extract_authors_calls_agent_with_text(mock_agent_class):
     mock_agent = Mock()
@@ -47,17 +49,17 @@ def test_extract_authors_calls_agent_with_text(mock_agent_class):
     expected_result = PaperAuthors(arxiv_id="1706.03762", authors=[])
 
     mock_run_result = Mock()
-    mock_run_result.data = expected_result
+    mock_run_result.output = expected_result
     mock_agent.run_sync.return_value = mock_run_result
 
     extract_authors("1706.03762", SAMPLE_TEXT)
 
-    call_args = mock_agent.run_sync.call_args
-    assert SAMPLE_TEXT in str(call_args)
+    mock_agent.run_sync.assert_called_once_with(SAMPLE_TEXT)
 
 
+@patch.dict("os.environ", {"MODEL_NAME": "gemini-1.5-flash"})
 @patch("arxiv_author_affiliation.extractor_agent.Agent")
-def test_extract_authors_agent_configured_with_paper_authors_result_type(
+def test_extract_authors_agent_configured_with_paper_authors_output_type(
     mock_agent_class,
 ):
     mock_agent = Mock()
@@ -66,7 +68,7 @@ def test_extract_authors_agent_configured_with_paper_authors_result_type(
     expected_result = PaperAuthors(arxiv_id="1706.03762", authors=[])
 
     mock_run_result = Mock()
-    mock_run_result.data = expected_result
+    mock_run_result.output = expected_result
     mock_agent.run_sync.return_value = mock_run_result
 
     extract_authors("1706.03762", SAMPLE_TEXT)
@@ -74,10 +76,11 @@ def test_extract_authors_agent_configured_with_paper_authors_result_type(
     mock_agent_class.assert_called_once()
     call_kwargs = mock_agent_class.call_args.kwargs
 
-    assert "result_type" in call_kwargs
-    assert call_kwargs["result_type"] == PaperAuthors
+    assert "output_type" in call_kwargs
+    assert call_kwargs["output_type"] == PaperAuthors
 
 
+@patch.dict("os.environ", {"MODEL_NAME": "gemini-1.5-flash"})
 @patch("arxiv_author_affiliation.extractor_agent.Agent")
 def test_extract_authors_returns_multiple_authors(mock_agent_class):
     mock_agent = Mock()
@@ -99,7 +102,7 @@ def test_extract_authors_returns_multiple_authors(mock_agent_class):
     )
 
     mock_run_result = Mock()
-    mock_run_result.data = expected_result
+    mock_run_result.output = expected_result
     mock_agent.run_sync.return_value = mock_run_result
 
     result = extract_authors("1706.03762", SAMPLE_TEXT)
@@ -107,3 +110,24 @@ def test_extract_authors_returns_multiple_authors(mock_agent_class):
     assert len(result.authors) == 3
     assert result.authors[0].name == "Ashish Vaswani"
     assert result.authors[1].name == "Noam Shazeer"
+
+
+@patch.dict("os.environ", {"MODEL_NAME": "gemini-1.5-flash"})
+@patch("arxiv_author_affiliation.extractor_agent.Agent")
+def test_extract_authors_agent_configured_with_retries(mock_agent_class):
+    mock_agent = Mock()
+    mock_agent_class.return_value = mock_agent
+
+    expected_result = PaperAuthors(arxiv_id="1706.03762", authors=[])
+
+    mock_run_result = Mock()
+    mock_run_result.output = expected_result
+    mock_agent.run_sync.return_value = mock_run_result
+
+    extract_authors("1706.03762", SAMPLE_TEXT)
+
+    mock_agent_class.assert_called_once()
+    call_kwargs = mock_agent_class.call_args.kwargs
+
+    assert "retries" in call_kwargs
+    assert call_kwargs["retries"] == 5
