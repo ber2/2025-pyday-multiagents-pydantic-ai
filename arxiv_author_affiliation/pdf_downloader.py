@@ -30,7 +30,7 @@ class ArxivPDFDownloader:
             return pdf_path
 
         url = f"https://arxiv.org/pdf/{arxiv_id}.pdf"
-        response = httpx.get(url)
+        response = httpx.get(url, follow_redirects=True)
         response.raise_for_status()
 
         pdf_path.write_bytes(response.content)
