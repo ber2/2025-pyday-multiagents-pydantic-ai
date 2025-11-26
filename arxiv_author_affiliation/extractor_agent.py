@@ -1,3 +1,5 @@
+from pydantic_ai import Agent
+
 from arxiv_author_affiliation.data_models.paper_authors import PaperAuthors
 
 
