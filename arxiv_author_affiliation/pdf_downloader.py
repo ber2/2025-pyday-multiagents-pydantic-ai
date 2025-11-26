@@ -17,11 +17,7 @@ class ArxivPDFDownloader:
         pdf_path = self._get_or_download_pdf(paper.arxiv_id)
         text, page_count = self._extract_text_from_pdf(pdf_path)
 
-        return ExtractedPaper(
-            arxiv_id=paper.arxiv_id,
-            text=text,
-            page_count=page_count
-        )
+        return ExtractedPaper(arxiv_id=paper.arxiv_id, text=text, page_count=page_count)
 
     def _get_or_download_pdf(self, arxiv_id: str) -> Path:
         pdf_path = self.cache_dir / f"{arxiv_id}.pdf"

@@ -5,8 +5,8 @@ from arxiv_author_affiliation.extractor_agent import extract_authors
 
 
 @click.command()
-@click.argument('arxiv_id', metavar='ARXIV_ID')
-@click.help_option('-h', '--help')
+@click.argument("arxiv_id", metavar="ARXIV_ID")
+@click.help_option("-h", "--help")
 def cli(arxiv_id):
     """
     Download and extract author/affiliation data from an arXiv paper.

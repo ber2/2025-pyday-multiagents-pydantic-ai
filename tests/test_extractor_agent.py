@@ -14,7 +14,7 @@ with open(TEST_TEXT_PATH) as f:
     SAMPLE_TEXT = f.read()
 
 
-@patch('arxiv_author_affiliation.extractor_agent.Agent')
+@patch("arxiv_author_affiliation.extractor_agent.Agent")
 def test_extract_authors_returns_paper_authors(mock_agent_class):
     mock_agent = Mock()
     mock_agent_class.return_value = mock_agent
@@ -22,8 +22,10 @@ def test_extract_authors_returns_paper_authors(mock_agent_class):
     expected_result = PaperAuthors(
         arxiv_id="1706.03762",
         authors=[
-            Author(name="Ashish Vaswani", affiliations=[Affiliation(name="Google Brain")])
-        ]
+            Author(
+                name="Ashish Vaswani", affiliations=[Affiliation(name="Google Brain")]
+            )
+        ],
     )
 
     mock_run_result = Mock()
@@ -37,15 +39,12 @@ def test_extract_authors_returns_paper_authors(mock_agent_class):
     mock_agent.run_sync.assert_called_once()
 
 
-@patch('arxiv_author_affiliation.extractor_agent.Agent')
+@patch("arxiv_author_affiliation.extractor_agent.Agent")
 def test_extract_authors_calls_agent_with_text(mock_agent_class):
     mock_agent = Mock()
     mock_agent_class.return_value = mock_agent
 
-    expected_result = PaperAuthors(
-        arxiv_id="1706.03762",
-        authors=[]
-    )
+    expected_result = PaperAuthors(arxiv_id="1706.03762", authors=[])
 
     mock_run_result = Mock()
     mock_run_result.data = expected_result
@@ -57,15 +56,14 @@ def test_extract_authors_calls_agent_with_text(mock_agent_class):
     assert SAMPLE_TEXT in str(call_args)
 
 
-@patch('arxiv_author_affiliation.extractor_agent.Agent')
-def test_extract_authors_agent_configured_with_paper_authors_result_type(mock_agent_class):
+@patch("arxiv_author_affiliation.extractor_agent.Agent")
+def test_extract_authors_agent_configured_with_paper_authors_result_type(
+    mock_agent_class,
+):
     mock_agent = Mock()
     mock_agent_class.return_value = mock_agent
 
-    expected_result = PaperAuthors(
-        arxiv_id="1706.03762",
-        authors=[]
-    )
+    expected_result = PaperAuthors(arxiv_id="1706.03762", authors=[])
 
     mock_run_result = Mock()
     mock_run_result.data = expected_result
@@ -76,11 +74,11 @@ def test_extract_authors_agent_configured_with_paper_authors_result_type(mock_ag
     mock_agent_class.assert_called_once()
     call_kwargs = mock_agent_class.call_args.kwargs
 
-    assert 'result_type' in call_kwargs
-    assert call_kwargs['result_type'] == PaperAuthors
+    assert "result_type" in call_kwargs
+    assert call_kwargs["result_type"] == PaperAuthors
 
 
-@patch('arxiv_author_affiliation.extractor_agent.Agent')
+@patch("arxiv_author_affiliation.extractor_agent.Agent")
 def test_extract_authors_returns_multiple_authors(mock_agent_class):
     mock_agent = Mock()
     mock_agent_class.return_value = mock_agent
@@ -88,10 +86,16 @@ def test_extract_authors_returns_multiple_authors(mock_agent_class):
     expected_result = PaperAuthors(
         arxiv_id="1706.03762",
         authors=[
-            Author(name="Ashish Vaswani", affiliations=[Affiliation(name="Google Brain")]),
-            Author(name="Noam Shazeer", affiliations=[Affiliation(name="Google Brain")]),
-            Author(name="Niki Parmar", affiliations=[Affiliation(name="Google Research")])
-        ]
+            Author(
+                name="Ashish Vaswani", affiliations=[Affiliation(name="Google Brain")]
+            ),
+            Author(
+                name="Noam Shazeer", affiliations=[Affiliation(name="Google Brain")]
+            ),
+            Author(
+                name="Niki Parmar", affiliations=[Affiliation(name="Google Research")]
+            ),
+        ],
     )
 
     mock_run_result = Mock()

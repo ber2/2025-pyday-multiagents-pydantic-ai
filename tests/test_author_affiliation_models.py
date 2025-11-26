@@ -24,7 +24,7 @@ class TestAuthor:
     def test_create_author_with_affiliations(self):
         affiliations = [
             Affiliation(name="Google Brain"),
-            Affiliation(name="Google Research")
+            Affiliation(name="Google Research"),
         ]
         author = Author(name="Ashish Vaswani", affiliations=affiliations)
         assert author.name == "Ashish Vaswani"
@@ -43,8 +43,12 @@ class TestAuthor:
 class TestPaperAuthors:
     def test_create_paper_authors_with_arxiv_id_and_authors(self):
         authors = [
-            Author(name="Ashish Vaswani", affiliations=[Affiliation(name="Google Brain")]),
-            Author(name="Noam Shazeer", affiliations=[Affiliation(name="Google Brain")])
+            Author(
+                name="Ashish Vaswani", affiliations=[Affiliation(name="Google Brain")]
+            ),
+            Author(
+                name="Noam Shazeer", affiliations=[Affiliation(name="Google Brain")]
+            ),
         ]
         paper = PaperAuthors(arxiv_id="1706.03762", authors=authors)
         assert paper.arxiv_id == "1706.03762"
@@ -62,7 +66,7 @@ class TestPaperAuthors:
         authors = [
             Author(name="Author 1", affiliations=[]),
             Author(name="Author 2", affiliations=[]),
-            Author(name="Author 3", affiliations=[])
+            Author(name="Author 3", affiliations=[]),
         ]
         paper = PaperAuthors(arxiv_id="1706.03762", authors=authors)
         assert paper.author_count == 3

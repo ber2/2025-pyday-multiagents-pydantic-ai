@@ -23,9 +23,9 @@ def test_download_validates_arxiv_id(tmp_path):
         downloader.download_and_extract("invalid-id")
 
 
-@patch('httpx.get')
+@patch("httpx.get")
 def test_downloads_pdf_to_cache_dir(mock_get, tmp_path):
-    with open(TEST_PDF_PATH, 'rb') as f:
+    with open(TEST_PDF_PATH, "rb") as f:
         pdf_content = f.read()
 
     mock_response = Mock()
@@ -44,9 +44,9 @@ def test_downloads_pdf_to_cache_dir(mock_get, tmp_path):
     assert expected_pdf_path.exists()
 
 
-@patch('httpx.get')
+@patch("httpx.get")
 def test_extracts_text_from_pdf(mock_get, tmp_path):
-    with open(TEST_PDF_PATH, 'rb') as f:
+    with open(TEST_PDF_PATH, "rb") as f:
         pdf_content = f.read()
 
     mock_response = Mock()
@@ -67,9 +67,9 @@ def test_extracts_text_from_pdf(mock_get, tmp_path):
     assert result.page_count > 0
 
 
-@patch('httpx.get')
+@patch("httpx.get")
 def test_uses_cached_pdf_if_exists(mock_get, tmp_path):
-    with open(TEST_PDF_PATH, 'rb') as f:
+    with open(TEST_PDF_PATH, "rb") as f:
         pdf_content = f.read()
 
     cached_pdf = tmp_path / f"{TEST_ARXIV_ID}.pdf"
@@ -83,9 +83,9 @@ def test_uses_cached_pdf_if_exists(mock_get, tmp_path):
     assert len(result.text) > 0
 
 
-@patch('httpx.get')
+@patch("httpx.get")
 def test_follows_redirects(mock_get, tmp_path):
-    with open(TEST_PDF_PATH, 'rb') as f:
+    with open(TEST_PDF_PATH, "rb") as f:
         pdf_content = f.read()
 
     mock_response = Mock()
