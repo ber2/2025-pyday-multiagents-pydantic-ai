@@ -40,10 +40,14 @@ def cli(arxiv_id):
             for affiliation in author.affiliations:
                 logfire.info(f"    * {affiliation.name}")
 
-        logfire.info(f"Normalized affiliations ({len(result.normalized_affiliations)}):")
+        logfire.info(
+            f"Normalized affiliations ({len(result.normalized_affiliations)}):"
+        )
         for norm_aff in result.normalized_affiliations:
             status = "✓" if norm_aff.is_valid else "✗"
-            logfire.info(f"  {status} {norm_aff.original_name} → {norm_aff.normalized_name} (confidence: {norm_aff.confidence:.2f})")
+            logfire.info(
+                f"  {status} {norm_aff.original_name} → {norm_aff.normalized_name} (confidence: {norm_aff.confidence:.2f})"
+            )
 
         if result.validation_issues:
             logfire.warn("Validation issues found:")

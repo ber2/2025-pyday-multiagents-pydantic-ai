@@ -23,9 +23,7 @@ class TestNormalizedAffiliation:
 
     def test_normalized_affiliation_requires_all_fields(self):
         with pytest.raises(ValidationError):
-            NormalizedAffiliation(
-                original_name="MIT"
-            )
+            NormalizedAffiliation(original_name="MIT")
 
     def test_normalized_affiliation_confidence_is_float(self):
         affiliation = NormalizedAffiliation(

@@ -122,7 +122,10 @@ def test_orchestrator_includes_normalized_affiliations_in_result(
     assert hasattr(result, "normalized_affiliations")
     assert len(result.normalized_affiliations) == 1
     assert result.normalized_affiliations[0].original_name == "MIT"
-    assert result.normalized_affiliations[0].normalized_name == "Massachusetts Institute of Technology"
+    assert (
+        result.normalized_affiliations[0].normalized_name
+        == "Massachusetts Institute of Technology"
+    )
 
 
 @patch("arxiv_author_affiliation.orchestrator.resolve_affiliations")
