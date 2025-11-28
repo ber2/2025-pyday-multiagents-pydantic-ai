@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 
-from arxiv_author_affiliation.data_models.normalized_affiliation import NormalizedAffiliation
+from arxiv_author_affiliation.data_models.normalized_affiliation import (
+    NormalizedAffiliation,
+)
 
 
 class ResolverOutput(BaseModel):
