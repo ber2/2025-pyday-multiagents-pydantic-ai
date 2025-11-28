@@ -3,7 +3,9 @@ from unittest.mock import Mock, patch
 
 from arxiv_author_affiliation.resolver_agent import resolve_affiliations
 from arxiv_author_affiliation.data_models.affiliation import Affiliation
-from arxiv_author_affiliation.data_models.normalized_affiliation import NormalizedAffiliation
+from arxiv_author_affiliation.data_models.normalized_affiliation import (
+    NormalizedAffiliation,
+)
 from arxiv_author_affiliation.data_models.resolver_output import ResolverOutput
 
 
@@ -19,11 +21,11 @@ def test_resolve_affiliations_returns_resolver_output(mock_agent_class):
                 original_name="MIT",
                 normalized_name="Massachusetts Institute of Technology",
                 is_valid=True,
-                confidence=0.95
+                confidence=0.95,
             )
         ],
         needs_clarification=False,
-        issues=[]
+        issues=[],
     )
 
     mock_run_result = Mock()
@@ -35,7 +37,10 @@ def test_resolve_affiliations_returns_resolver_output(mock_agent_class):
 
     assert isinstance(result, ResolverOutput)
     assert len(result.normalized_affiliations) == 1
-    assert result.normalized_affiliations[0].normalized_name == "Massachusetts Institute of Technology"
+    assert (
+        result.normalized_affiliations[0].normalized_name
+        == "Massachusetts Institute of Technology"
+    )
 
 
 @patch.dict("os.environ", {"MODEL_NAME": "gemini-1.5-flash"})
@@ -70,10 +75,7 @@ def test_resolve_affiliations_passes_affiliation_names_to_agent(mock_agent_class
     mock_run_result.output = expected_result
     mock_agent.run_sync.return_value = mock_run_result
 
-    affiliations = [
-        Affiliation(name="MIT"),
-        Affiliation(name="Stanford")
-    ]
+    affiliations = [Affiliation(name="MIT"), Affiliation(name="Stanford")]
     resolve_affiliations(affiliations)
 
     mock_agent.run_sync.assert_called_once()
@@ -93,7 +95,7 @@ def test_resolve_affiliations_detects_issues(mock_agent_class):
     expected_result = ResolverOutput(
         normalized_affiliations=[],
         needs_clarification=True,
-        issues=["Ambiguous affiliation: Unknown Research Lab"]
+        issues=["Ambiguous affiliation: Unknown Research Lab"],
     )
 
     mock_run_result = Mock()
@@ -119,14 +121,14 @@ def test_resolve_affiliations_handles_multiple_affiliations(mock_agent_class):
                 original_name="MIT",
                 normalized_name="Massachusetts Institute of Technology",
                 is_valid=True,
-                confidence=0.95
+                confidence=0.95,
             ),
             NormalizedAffiliation(
                 original_name="Stanford",
                 normalized_name="Stanford University",
                 is_valid=True,
-                confidence=0.92
-            )
+                confidence=0.92,
+            ),
         ]
     )
 
@@ -134,10 +136,7 @@ def test_resolve_affiliations_handles_multiple_affiliations(mock_agent_class):
     mock_run_result.output = expected_result
     mock_agent.run_sync.return_value = mock_run_result
 
-    affiliations = [
-        Affiliation(name="MIT"),
-        Affiliation(name="Stanford")
-    ]
+    affiliations = [Affiliation(name="MIT"), Affiliation(name="Stanford")]
     result = resolve_affiliations(affiliations)
 
     assert len(result.normalized_affiliations) == 2

@@ -1,7 +1,9 @@
 import pytest
 from pydantic import ValidationError
 
-from arxiv_author_affiliation.data_models.normalized_affiliation import NormalizedAffiliation
+from arxiv_author_affiliation.data_models.normalized_affiliation import (
+    NormalizedAffiliation,
+)
 from arxiv_author_affiliation.data_models.resolver_output import ResolverOutput
 
 
@@ -11,7 +13,7 @@ class TestNormalizedAffiliation:
             original_name="MIT",
             normalized_name="Massachusetts Institute of Technology",
             is_valid=True,
-            confidence=0.95
+            confidence=0.95,
         )
 
         assert affiliation.original_name == "MIT"
@@ -31,7 +33,7 @@ class TestNormalizedAffiliation:
             original_name="Stanford",
             normalized_name="Stanford University",
             is_valid=True,
-            confidence=0.88
+            confidence=0.88,
         )
 
         assert isinstance(affiliation.confidence, float)
@@ -41,7 +43,7 @@ class TestNormalizedAffiliation:
             original_name="Unknown Corp",
             normalized_name="Unknown Corp",
             is_valid=False,
-            confidence=0.2
+            confidence=0.2,
         )
 
         assert affiliation.is_valid is False
@@ -55,11 +57,11 @@ class TestResolverOutput:
                     original_name="MIT",
                     normalized_name="Massachusetts Institute of Technology",
                     is_valid=True,
-                    confidence=0.95
+                    confidence=0.95,
                 )
             ],
             needs_clarification=False,
-            issues=[]
+            issues=[],
         )
 
         assert len(output.normalized_affiliations) == 1
@@ -70,7 +72,7 @@ class TestResolverOutput:
         output = ResolverOutput(
             normalized_affiliations=[],
             needs_clarification=True,
-            issues=["Ambiguous affiliation: ABC Research"]
+            issues=["Ambiguous affiliation: ABC Research"],
         )
 
         assert output.needs_clarification is True
@@ -78,16 +80,12 @@ class TestResolverOutput:
         assert "Ambiguous" in output.issues[0]
 
     def test_resolver_output_needs_clarification_defaults_to_false(self):
-        output = ResolverOutput(
-            normalized_affiliations=[]
-        )
+        output = ResolverOutput(normalized_affiliations=[])
 
         assert output.needs_clarification is False
 
     def test_resolver_output_issues_defaults_to_empty_list(self):
-        output = ResolverOutput(
-            normalized_affiliations=[]
-        )
+        output = ResolverOutput(normalized_affiliations=[])
 
         assert output.issues == []
 
@@ -98,14 +96,14 @@ class TestResolverOutput:
                     original_name="MIT",
                     normalized_name="Massachusetts Institute of Technology",
                     is_valid=True,
-                    confidence=0.95
+                    confidence=0.95,
                 ),
                 NormalizedAffiliation(
                     original_name="Stanford",
                     normalized_name="Stanford University",
                     is_valid=True,
-                    confidence=0.92
-                )
+                    confidence=0.92,
+                ),
             ]
         )
 
