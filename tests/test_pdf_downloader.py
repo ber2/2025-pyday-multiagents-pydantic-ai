@@ -12,7 +12,7 @@ TEST_PDF_PATH = Path(__file__).parent / "resources" / "1706.03762v7.pdf"
 
 def test_downloader_creates_cache_dir(tmp_path):
     cache_dir = tmp_path / "test_cache"
-    downloader = ArxivPDFDownloader(cache_dir=cache_dir)
+    _ = ArxivPDFDownloader(cache_dir=cache_dir)
     assert cache_dir.exists()
     assert cache_dir.is_dir()
 

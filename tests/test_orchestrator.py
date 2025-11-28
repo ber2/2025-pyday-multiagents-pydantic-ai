@@ -1,5 +1,4 @@
-import pytest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 from pathlib import Path
 
 from arxiv_author_affiliation.orchestrator import process_paper
@@ -124,8 +123,10 @@ def test_orchestrator_includes_normalized_affiliations_in_result(mock_extract, m
 
     assert hasattr(result, "authors")
     assert len(result.authors) > 0
-    # The result should include normalized affiliation data
-    assert hasattr(result, "validation_issues")
+    assert hasattr(result, "normalized_affiliations")
+    assert len(result.normalized_affiliations) == 1
+    assert result.normalized_affiliations[0].original_name == "MIT"
+    assert result.normalized_affiliations[0].normalized_name == "Massachusetts Institute of Technology"
 
 
 @patch("arxiv_author_affiliation.orchestrator.resolve_affiliations")
@@ -215,3 +216,8 @@ def test_orchestrator_handles_multiple_authors(mock_extract, mock_resolve):
     result = process_paper("1706.03762", SAMPLE_TEXT)
 
     assert len(result.authors) == 3
+    assert len(result.normalized_affiliations) == 3
+    normalized_names = [aff.normalized_name for aff in result.normalized_affiliations]
+    assert "Massachusetts Institute of Technology" in normalized_names
+    assert "Stanford University" in normalized_names
+    assert "University of California, Berkeley" in normalized_names

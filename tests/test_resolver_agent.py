@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import Mock, patch
 
 from arxiv_author_affiliation.resolver_agent import resolve_affiliations
@@ -79,7 +78,6 @@ def test_resolve_affiliations_passes_affiliation_names_to_agent(mock_agent_class
     mock_agent.run_sync.assert_called_once()
     call_args = mock_agent.run_sync.call_args[0][0]
 
-    # The agent should receive the affiliation names as input
     assert "MIT" in call_args
     assert "Stanford" in call_args
 
