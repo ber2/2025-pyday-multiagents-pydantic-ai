@@ -145,7 +145,7 @@ Once setup is complete, you can test the complete solution:
 git checkout part2-solution
 
 # Run the CLI tool
-uv run python -m arxiv-parser "1706.03762v7"
+uv run arxiv-parser "1706.03762v7"
 ```
 
 This will download an arXiv paper and extract structured author/affiliation data.
